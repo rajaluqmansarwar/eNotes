@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User')
 const {body,validationResult}=require('express-validator');
+const fetchuser = require('../middleware/fetchuser');
 const bcrypt=require('bcryptjs');
 const jwt = require ('jsonwebtoken');
 
@@ -14,7 +15,7 @@ const JWT_SECRET ='mySecretString';
 //     "password":"123456"
 // }
 
-// Create a user using: POST "/api/auth/createuser". No login required
+// Route 1: Create a user using: POST "/api/auth/createuser". No login required
 router.post('/createuser',
     [body('name',"Invalid name").isLength({ min: 3 }),
     body('email',"Invalid email").isEmail(),
@@ -55,11 +56,13 @@ router.post('/createuser',
             }
           
 })
-// Authenticate a user using: POST "/api/auth/login". No login required
+// Route 2: Authenticate a user using: POST "/api/auth/login". No login required
 router.post('/login',
         [body('email','Invalid email').isEmail(),
          body('password','Password cannot be blank').notEmpty()],
         async(req,res)=>{
+            const{email,password}=req.body;  
+            
             // if there are errors, return errors
             const errors=validationResult(req);
             if(!errors.isEmpty()){
@@ -67,7 +70,6 @@ router.post('/login',
             }
             
             // Authenticating a user
-            const{email,password}=req.body;  
             try {
                 // checking if user exists through email
                 const user= await User.findOne({email});
@@ -81,12 +83,12 @@ router.post('/login',
                     return res.status(400).json({error:"Enter valid pass"});
                 }
                     // If user exists give authentication token
-                    const payload={
+                    const Data={
                         user:{
                             id:user.id
                         }
                     }
-                    const authToken= jwt.sign(payload,JWT_SECRET);
+                    const authToken= jwt.sign(Data,JWT_SECRET);
                     console.log(authToken);
                     res.json({authToken});
 
@@ -95,6 +97,17 @@ router.post('/login',
                 res.status(500).send("Internal server error occured")
             }
 
+})
+// Route 3: Get loggedin user details using: POST "/api/auth/getuser".login required
+router.post('/getuser',fetchuser,async (req,res)=>{
+    try {
+        const userId=req.user.id;
+        const user= await User.findById(userId).select("-password");
+        res.send(user);
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).send("Internal server error occured")
+    }
 })
 
 module.exports = router;

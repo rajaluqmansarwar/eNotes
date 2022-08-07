@@ -5,10 +5,11 @@ connectToMongo();
 const app=express();
 const port=5000;
 
-app.use(express.json())
+// for testing requests and view response in json 
+app.use(express.json());
 // Available Routes
 app.use('/api/auth',require('./routes/auth'));
-app.use('/api/notes',require('./routes/notes'));
+app.use('/api/note',require('./routes/note'));
 
 // Listening to port
 app.listen(port,()=>{
