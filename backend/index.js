@@ -13,5 +13,5 @@ app.use('/api/note',require('./routes/note'));
 
 // Listening to port
 app.listen(port,()=>{
-    console.log(`Example app listening at port:${port}`);
+    console.log(`eNotes listening at port:${port}`);
 })
