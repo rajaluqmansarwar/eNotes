@@ -10,7 +10,7 @@ const Navbar = () => {
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <div className="container-fluid">
           <Link className="navbar-brand" to="/">
-          <i class="fa-solid fa-file-pen"></i> <strong><em>eNotes</em></strong>
+          <i className="fa-solid fa-file-pen"></i> <strong><em>eNotes</em></strong>
           </Link>
           <button
             className="navbar-toggler"
