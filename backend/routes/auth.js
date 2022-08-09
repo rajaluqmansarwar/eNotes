@@ -59,15 +59,17 @@ router.post('/createuser',
 // Route 2: Authenticate a user using: POST "/api/auth/login". No login required
 router.post('/login',
         [body('email','Invalid email').isEmail(),
-         body('password','Password cannot be blank').notEmpty()],
+         body('password','Invalid pass').notEmpty()],
         async(req,res)=>{
-            const{email,password}=req.body; 
+            const{email}=req.body; 
+            const{password}=req.body; 
             let success=false; 
+            console.log(email);
+            console.log(password);
             
             // if there are errors, return errors
             const errors=validationResult(req);
             if(!errors.isEmpty()){
-                console.log(password + " huhu");
                 return res.status(400).json({password,success,errors:errors.array()});
             }
             
