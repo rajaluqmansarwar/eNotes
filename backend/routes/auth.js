@@ -61,12 +61,14 @@ router.post('/login',
         [body('email','Invalid email').isEmail(),
          body('password','Password cannot be blank').notEmpty()],
         async(req,res)=>{
-            const{email,password}=req.body;  
+            const{email,password}=req.body; 
+            let success=false; 
             
             // if there are errors, return errors
             const errors=validationResult(req);
             if(!errors.isEmpty()){
-                return res.status(400).json({errors:errors.array()});
+                console.log(password + " huhu");
+                return res.status(400).json({password,success,errors:errors.array()});
             }
             
             // Authenticating a user
@@ -75,12 +77,12 @@ router.post('/login',
                 const user= await User.findOne({email});
                 console.log(user);
                 if(!user){
-                    return res.status(400).json({error:"Enter valid email"});
+                    return res.status(400).json({success,error:"Enter valid email"});
                 }
                 // Checking for password
                 const passCompare = await bcrypt.compare(password,user.password)
                 if(!passCompare){
-                    return res.status(400).json({error:"Enter valid pass"});
+                    return res.status(400).json({success,error:"Enter valid pass"});
                 }
                     // If user exists give authentication token
                     const Data={
@@ -89,8 +91,9 @@ router.post('/login',
                         }
                     }
                     const authToken= jwt.sign(Data,JWT_SECRET);
-                    console.log(authToken);
-                    res.json({authToken});
+                    success=true;
+                    console.log(success + authToken);
+                    res.json({success,authToken});
 
             } catch (error) {
                 console.log(error.message);

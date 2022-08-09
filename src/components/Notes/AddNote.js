@@ -40,7 +40,7 @@ const AddNote = () => {
                 <input type="text" className="form-control" id="tag" name='tag' value={note.tag} onChange={changeHandler}
                  minLength={3}/>
             </div>
-            <button disabled={note.title.length<3 || note.description.length<5} type="submit" className="btn btn-primary" onClick={clickHandler}>Submit</button>
+            <button disabled={note.title.length<3 || note.description.length<5} type="submit" className="btn btn-primary" onClick={clickHandler}>Add Note</button>
           </form>
         </div>
     </>
