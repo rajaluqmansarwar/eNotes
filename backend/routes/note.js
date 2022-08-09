@@ -91,7 +91,7 @@ const {body,validationResult}= require('express-validator');
 
             // Deleting Note
                 const deletedNote = await Note.findByIdAndDelete(req.params.id);
-                res.json({"Message":"Successfully Deleted!",deletedNote:deletedNote});
+                res.json({"message":"Successfully Deleted!",deletedNote:deletedNote});
        } catch (error) {
                 console.log(error.message);
                 res.status(500).send("Internal server error occured")
