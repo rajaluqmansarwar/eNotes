@@ -59,14 +59,11 @@ router.post('/createuser',
 // Route 2: Authenticate a user using: POST "/api/auth/login". No login required
 router.post('/login',
         [body('email','Invalid email').isEmail(),
-         body('password','Invalid pass').notEmpty()],
+         body('password','Invalid pass').exists()],
         async(req,res)=>{
-            const{email}=req.body; 
-            const{password}=req.body; 
+            const{email,password}=req.body; 
             let success=false; 
-            console.log(email);
-            console.log(password);
-            
+
             // if there are errors, return errors
             const errors=validationResult(req);
             if(!errors.isEmpty()){
@@ -75,14 +72,18 @@ router.post('/login',
             
             // Authenticating a user
             try {
+
                 // checking if user exists through email
                 const user= await User.findOne({email});
                 console.log(user);
+                
                 if(!user){
                     return res.status(400).json({success,error:"Enter valid email"});
                 }
+
                 // Checking for password
                 const passCompare = await bcrypt.compare(password,user.password)
+                console.log(passCompare);
                 if(!passCompare){
                     return res.status(400).json({success,error:"Enter valid pass"});
                 }
