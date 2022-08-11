@@ -43,17 +43,20 @@ const Login = () => {
     return (
              <>
                 {/* Login Form */}
-                <form onSubmit={loginHandler}>
-                    <div className="mb-3">
-                        <label htmlFor="email" className="form-label">Email address</label>
-                        <input type="text"  className="form-control" id="email" name='email' required value={credentials.email} onChange={changeHandler}/>
-                    </div>
-                    <div className="mb-3">
-                        <label htmlFor="password" className="form-label">Password</label>
-                        <input type="password" className="form-control" value={credentials.password} onChange={changeHandler} name="password" id="password" />
-                    </div>
-                    <button type="submit" className="btn btn-primary">Login</button>
-                </form>
+                <div className="container mt-5">
+                    <h2>Login to continue!</h2>
+                    <form onSubmit={loginHandler}>
+                        <div className="mb-3">
+                            <label htmlFor="email" className="form-label">Email address</label>
+                            <input type="text"  className="form-control" id="email" name='email' required value={credentials.email} onChange={changeHandler}/>
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="password" className="form-label">Password</label>
+                            <input type="password" className="form-control" value={credentials.password} onChange={changeHandler} name="password" id="password" />
+                        </div>
+                        <button type="submit" className="btn btn-primary">Login</button>
+                    </form>
+                </div>
         </>
   )
 }

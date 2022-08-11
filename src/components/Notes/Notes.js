@@ -1,17 +1,24 @@
 import React, { useContext, useEffect, useState, useRef } from 'react'
+import { useNavigate } from 'react-router-dom';
 import NoteContext from '../../context/NoteContext';
 import NotesItem from "../Notes/NotesItem";
 import AddNote from './AddNote';
 const Notes = () => {
   const grabbedNotes = useContext(NoteContext);
   const { notes, getNotes, updateNote} = grabbedNotes;
+  const navigate=useNavigate();
 
   // For pointing towards refrence point i.e (hidden button in this case)
     const ref= useRef(null);
 
   // For fetching Notes to the home page 
   useEffect(() => {
-    getNotes();
+    if(localStorage.getItem('token')){
+      getNotes();
+    }
+    else{
+      navigate('/Login');
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -37,8 +44,7 @@ const Notes = () => {
 
   return (
     <>
-      {/* Adding Notes */}
-      <AddNote />
+      
 
       {/* Edit Modal */}
       {/* Button trigger modal  */}
@@ -51,7 +57,7 @@ const Notes = () => {
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title" id="exampleModalLabel">Modal title</h5>
+              <h5 className="modal-title" id="exampleModalLabel">Edit Note</h5>
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">
@@ -79,19 +85,27 @@ const Notes = () => {
         </div>
       </div>
 
-      {/* Displaying Notes */}
-      <h2>Your Notes</h2>
-      {
-        notes.length===0 && <div>
-          <p><em>You don't have any notes right now</em></p>
+        {/* Displaying Notes */}
+      
+      <div className="mt-5">
+        <div className="d-flex">
+            <h2>Your Notes</h2>
+
+          {/* Adding Notes */}
+            <AddNote />
         </div>
-      }
-      <div className="row my-3">
         {
-          notes.map((notes) => {
-            return <NotesItem key={notes._id} notes={notes} editNote={editNote} />
-          })
+          notes.length===0 && <div>
+            <p><em>You don't have any notes right now</em></p>
+          </div>
         }
+        <div className="row my-3">
+          {
+            notes.map((notes) => {
+              return <NotesItem key={notes._id} notes={notes} editNote={editNote} />
+            })
+          }
+        </div>
       </div>
     </>
   )

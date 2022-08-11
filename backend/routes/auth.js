@@ -21,16 +21,17 @@ router.post('/createuser',
     body('email',"Invalid email").isEmail(),
     body('password',"Invalid password").isLength({ min: 5 })]
     , async(req,res)=>{
+        let success=false;
         // if there are errors, return errors
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-          return res.status(400).json({ errors: errors.array() });
+          return res.status(400).json({success, errors: errors.array() });
         }
         // checking if email already exists
             try {
                 let user=await User.findOne({email:req.body.email})
                 if(user){
-                    return res.status(400).json({error:"User with this email already exits"})
+                    return res.status(400).json({success, error:"User with this email already exits"})
                 }
                 // creating user
                 const salt=await bcrypt.genSalt(10);
@@ -46,9 +47,8 @@ router.post('/createuser',
                     }
                 }
                 const authToken=jwt.sign(Data,JWT_SECRET);
-                console.log(authToken);
-                // res.json(user)
-                res.json({authToken});
+                success=true;
+                res.json({success, authToken});
                 
             } catch (error) {
                 console.log(error.message);

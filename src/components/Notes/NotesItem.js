@@ -17,6 +17,7 @@ const NotesItem = (props) => {
                         <h5 className="card-title">{notes.title}</h5>
                         <p className="blockquote-footer my-2"><cite>{notes.tag}</cite></p>
                         <p className="card-text">{notes.description}</p>
+                        <p className="card-text"><cite>{notes.date}</cite></p>
                         <i className="fa-solid fa-pen-to-square mx-2" style={{color:"#00f75f"}} onClick={()=>{editNote(notes);}}></i>
                         <i className="fa-solid fa-trash-can mx-2" style={{color:"Red"}} onClick={()=>{deleteNote(notes._id);}}></i>
                     </div>
