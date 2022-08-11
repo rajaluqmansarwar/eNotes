@@ -1,7 +1,7 @@
 import React,{useContext,useState} from 'react';
 import NoteContext from '../../context/NoteContext';
 
-const AddNote = () => {
+const AddNote = (props) => {
 
     // getting functions from NoteContext
         const grabbedData=useContext(NoteContext);
@@ -28,7 +28,7 @@ const AddNote = () => {
 
       {/* Button trigger modal  */}
       <button  type="button" className="btn btn-primary mx-3" data-bs-toggle="modal" data-bs-target="#exampleModal2">
-        <i class="fa-solid fa-file-circle-plus"> Add Note</i>
+        <i className="fa-solid fa-file-circle-plus"> Add Note</i>
       </button>
 
       {/* Modal  */}
@@ -36,7 +36,7 @@ const AddNote = () => {
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title" id="exampleModalLabel2">Add Notes</h5>
+              <h5 className="modal-title" id="exampleModalLabel2">Add Note</h5>
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">

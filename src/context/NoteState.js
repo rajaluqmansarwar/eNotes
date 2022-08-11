@@ -19,6 +19,7 @@ const NoteState=(props)=>{
             }
             catch (error) {
                 console.log(error);
+                props.showAlert(`An error occured`,"danger");
             }
         }
 
@@ -32,9 +33,11 @@ const NoteState=(props)=>{
                 })
                 const addedNote= await response.json();
                 console.log(addedNote);
+                props.showAlert(`Note Added`,"success");
                 getNotes();
             } catch (error) {
                 console.log(error);
+                props.showAlert(`An error occured`,"danger");
             }
       }
     
@@ -48,10 +51,12 @@ const NoteState=(props)=>{
   
                   const deletedNote= await response.json();
                   console.log(deletedNote);
+                  props.showAlert(`Note Deleted`,"success");
                   getNotes();
                   
               } catch (error) {
                   console.log(error);
+                  props.showAlert(`An error occured`,"danger");
               }
   
         }
@@ -65,9 +70,11 @@ const NoteState=(props)=>{
             })
             const json = await response.json();
             console.log(json);
+            props.showAlert(`Note Updated`,"success");
             getNotes();
         } catch (error) {
             console.log(error);
+            props.showAlert(`An error occured`,"danger");
         }
       }
     return (

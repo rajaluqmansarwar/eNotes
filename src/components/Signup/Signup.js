@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import { useNavigate } from 'react-router-dom';
 
-const Signup = () => {
+const Signup = (props) => {
 
   // For Redirecting after successfull registeration
     const navigate=useNavigate();
@@ -35,17 +35,19 @@ const Signup = () => {
                 if(json.success){
                     localStorage.setItem("token",json.authToken);
                     navigate('/Login');
+                    props.showAlert(`Registeration successfull, you can now log in!`,"success");
                 }
                 else{
-                    alert("error");
+                  props.showAlert(`An error occured`,"danger");
                 }
           
         } catch (error) {
             console.log(error);
+            props.showAlert(`An error occured`,"danger");
         }
       }
       else{
-        alert("Passwords do not match");
+        props.showAlert(`Passwords doesn't match`,"danger");
       }
     }
 
